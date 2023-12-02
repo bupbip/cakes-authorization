@@ -17,8 +17,10 @@ import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.Collection;
 
+/**
+ * Пользователь
+ */
 @Data
-@Builder
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
@@ -30,10 +32,13 @@ public class User implements UserDetails {
     private Integer id;
 
     private String name;
+
     @Column(unique = true)
-    private String phone;
+    private String username;
+
     @Column(unique = true)
     private String email;
+
     private String password;
 
     @Enumerated(EnumType.STRING)

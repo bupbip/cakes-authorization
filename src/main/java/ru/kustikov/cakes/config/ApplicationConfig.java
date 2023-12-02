@@ -13,18 +13,31 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import ru.kustikov.cakes.user.UserRepository;
 
+/**
+ * Конфигурация приложения
+ */
 @Configuration
 @RequiredArgsConstructor
 public class ApplicationConfig {
 
     private final UserRepository repository;
 
+    /**
+     * Настройка сервиса для поиска пользователя по email
+     *
+     * @return - сервис для поиска пользователя по email
+     */
     @Bean
     public UserDetailsService userDetailsService() {
         return username -> repository.findByEmail(username)
                 .orElseThrow(() -> new UsernameNotFoundException("User not found"));
     }
 
+    /**
+     * Настройка провайдера для аутентификации
+     *
+     * @return - провайдер для аутентификации
+     */
     @Bean
     public AuthenticationProvider authenticationProvider() {
         DaoAuthenticationProvider authProvider = new DaoAuthenticationProvider();
@@ -33,11 +46,22 @@ public class ApplicationConfig {
         return authProvider;
     }
 
+    /**
+     * Настройка менеджера аутентификации
+     *
+     * @param config - конфигурация аутентификации
+     * @return - менеджер аутентификации
+     */
     @Bean
     public AuthenticationManager authenticationManager(AuthenticationConfiguration config) throws Exception {
         return config.getAuthenticationManager();
     }
 
+    /**
+     * Настройка кодировщика паролей
+     *
+     * @return - кодировщик паролей
+     */
     @Bean
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();

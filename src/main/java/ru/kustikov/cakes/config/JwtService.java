@@ -16,6 +16,9 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.function.Function;
 
+/**
+ * Сервис для работы с JWT
+ */
 @Service
 public class JwtService {
 
@@ -33,6 +36,12 @@ public class JwtService {
         return claimsResolver.apply(claims);
     }
 
+    /**
+     * Извлекает все данные из токена
+     *
+     * @param authentication - JWT токен
+     * @return - все данные из токена
+     */
     public String generateToken(Authentication authentication) {
         User user = (User) authentication.getPrincipal();
         Date now = new Date(System.currentTimeMillis());

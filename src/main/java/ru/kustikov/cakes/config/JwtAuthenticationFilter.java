@@ -17,6 +17,9 @@ import org.springframework.web.filter.OncePerRequestFilter;
 
 import java.io.IOException;
 
+/**
+ * Фильтр для аутентификации пользователя по JWT токену
+ */
 @Component
 @RequiredArgsConstructor
 public class JwtAuthenticationFilter extends OncePerRequestFilter {
@@ -24,6 +27,13 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
     private final JwtService jwtService;
     private final UserDetailsService userDetailsService;
 
+    /**
+     * Фильтр для аутентификации пользователя по JWT токену
+     *
+     * @param request     - запрос
+     * @param response    - ответ
+     * @param filterChain - цепочка фильтров
+     */
     @Override
     protected void doFilterInternal(
             @NonNull HttpServletRequest request,

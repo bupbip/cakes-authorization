@@ -9,11 +9,19 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import ru.kustikov.cakes.auth.requests.AuthenticationRequest;
+import ru.kustikov.cakes.auth.requests.RegistrationRequest;
+import ru.kustikov.cakes.auth.responses.AuthenticationResponse;
+import ru.kustikov.cakes.auth.responses.RegistrationResponse;
 import ru.kustikov.cakes.config.JwtService;
 import ru.kustikov.cakes.exception.UserExistException;
+import ru.kustikov.cakes.exception.UserNotFoundException;
 import ru.kustikov.cakes.user.User;
 import ru.kustikov.cakes.user.UserRepository;
 
+/**
+ * Сервис для аутентификации и регистрации
+ */
 @Service
 @RequiredArgsConstructor
 public class AuthenticationService {
@@ -24,35 +32,57 @@ public class AuthenticationService {
     private final JwtService jwtService;
     private final AuthenticationManager authenticationManager;
 
-    public void register(RegisterRequest request) {
+    /**
+     * Регистрация пользователя
+     *
+     * @param request - запрос на регистрацию
+     * @return - ответ с результатом регистрации
+     */
+    public RegistrationResponse register(RegistrationRequest request) {
         User user = new User();
-        user.setName(request.getName());
-        user.setPhone(request.getPhone());
-        user.setEmail(request.getEmail());
-        user.setPassword(passwordEncoder.encode(request.getPassword()));
-        user.setRole(request.getRole());
+        user.setName(request.name());
+        user.setUsername(request.username());
+        user.setEmail(request.email());
+        user.setPassword(passwordEncoder.encode(request.password()));
+        user.setRole(request.role());
 
         try {
             LOG.info("Saving user {}", user.getEmail());
             userRepository.save(user);
         } catch (Exception e) {
             LOG.error("Error during registration. {}", e.getMessage());
-            throw new UserExistException("The user " + user.getEmail() + " already exists");
+            return new RegistrationResponse(
+                    "Пользователь с таким email уже существует");
         }
+        return new RegistrationResponse(null);
     }
 
+    /**
+     * Аутентификация пользователя
+     *
+     * @param request - запрос на аутентификацию
+     * @return - ответ с результатом аутентификации
+     */
     public AuthenticationResponse authenticate(AuthenticationRequest request) {
-        Authentication authentication = authenticationManager.authenticate(
-                new UsernamePasswordAuthenticationToken(
-                        request.getEmail(),
-                        request.getPassword()
-                )
-        );
+        Authentication authentication;
+        try {
+            authentication = authenticationManager.authenticate(
+                    new UsernamePasswordAuthenticationToken(
+                            request.email(),
+                            request.password()
+                    )
+            );
+        } catch (Exception e) {
+            LOG.error("Error during authentication. {}", e.getMessage());
+            return new AuthenticationResponse(
+                    "Почта или пароль не верны. Попробуйте ещё раз.",
+                    null);
+        }
 
         var jwtToken = jwtService.generateToken(authentication);
 
         SecurityContextHolder.getContext().setAuthentication(authentication);
-        return new AuthenticationResponse(true, jwtToken);
+        return new AuthenticationResponse(null, jwtToken);
     }
 
 }
