@@ -1,21 +1,52 @@
+server:
+  port: 4301
+
 spring:
   datasource:
-    url: jdbc:postgresql://localhost:5432/cakes-test
+    url: jdbc:postgresql://localhost:5432/cake_database
     username: postgres
     password: 12345678
     driver-class-name: org.postgresql.Driver
   jpa:
     hibernate:
-      ddl-auto: create
+      ddl-auto: update
     show-sql: false
     properties:
       hibernate:
         format_sql: true
     database: postgresql
     database-platform: org.hibernate.dialect.PostgreSQLDialect
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          issuer-uri: http://localhost:4301/api
 
 application:
   security:
     jwt:
       secret-key: 158c97a9af1b4ac7b2cfaad5b7888be210fffd87aa907dab5ea101fee69dd9d3
       expiration: 86400000 # a day
+cakes:
+  cakes-authorization:
+    security:
+      issuer-url: http://localhost:4301/cakes-authorization/api
+    swagger:
+      default-server-url: http://localhost:4301/cakes-authtorization/api
+      token-server-url: http://localhost:4301/cakes-authorization/api/oauth2/token
+
+
+
+#springdoc:
+#  swagger-ui:
+#    # Отключение получения демо-данных о petstore
+#    disable-swagger-default-url: true
+#    # Путь до web страницы с swagger
+#    path: /swagger/swagger-ui
+#    # Путь до JSON файла с конфигурацией swagger
+#    configUrl: /api/swagger/swagger-ui/api-docs/swagger-config
+#    # Путь до JSON файла с описание API в OpenAPI формате.
+#    url: /api/swagger/swagger-ui/api-docs
+#  api-docs:
+#    # Путь до JSON файла с описание API в OpenAPI формате.
+#    path: /swagger/swagger-ui/api-docs

@@ -47,11 +47,11 @@ public class JwtService {
         Date now = new Date(System.currentTimeMillis());
         Date expiryDate = new Date(now.getTime() + jwtExpiration);
 
-        String userId = Long.toString(user.getId());
+        String userId = Long.toString(user.getUserId());
 
         Map<String, Object> claimsMap = new HashMap<>();
         claimsMap.put("id", userId);
-        claimsMap.put("instagram", user.getEmail());
+        claimsMap.put("email", user.getEmail());
         claimsMap.put("name", user.getName());
 
         return Jwts.builder()

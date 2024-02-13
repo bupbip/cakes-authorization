@@ -14,6 +14,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.oauth2.server.authorization.client.RegisteredClient;
 
 import java.util.Collection;
 
@@ -29,7 +30,7 @@ public class User implements UserDetails {
 
     @Id
     @GeneratedValue
-    private Integer id;
+    private Integer userId;
 
     private String name;
 
@@ -38,6 +39,8 @@ public class User implements UserDetails {
 
     @Column(unique = true)
     private String email;
+
+    private String phone;
 
     private String password;
 
@@ -54,7 +57,7 @@ public class User implements UserDetails {
 
     @Override
     public String getUsername() {
-        return email;
+        return username;
     }
 
     @Override
