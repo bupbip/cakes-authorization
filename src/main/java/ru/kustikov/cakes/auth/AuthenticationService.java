@@ -3,22 +3,19 @@ package ru.kustikov.cakes.auth;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-import org.springframework.web.client.RestTemplate;
 import ru.kustikov.cakes.auth.requests.AuthenticationRequest;
 import ru.kustikov.cakes.auth.requests.RegistrationRequest;
 import ru.kustikov.cakes.auth.responses.AuthenticationResponse;
 import ru.kustikov.cakes.auth.responses.RegistrationResponse;
 import ru.kustikov.cakes.config.JwtService;
 import ru.kustikov.cakes.exception.UserExistException;
-import ru.kustikov.cakes.exception.UserNotFoundException;
+import ru.kustikov.cakes.user.Role;
 import ru.kustikov.cakes.user.User;
 import ru.kustikov.cakes.user.UserRepository;
 
@@ -46,6 +43,7 @@ public class AuthenticationService {
         user.setUsername(request.username());
         user.setEmail(request.email());
         user.setPassword(passwordEncoder.encode(request.password()));
+        user.setRole(request.role() ? Role.ROLE_CONFECTIONER : Role.ROLE_CUSTOMER);
 
         try {
             LOG.info("Saving user {}", user.getEmail());
