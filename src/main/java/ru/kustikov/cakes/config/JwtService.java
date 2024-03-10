@@ -52,7 +52,7 @@ public class JwtService {
         Map<String, Object> claimsMap = new HashMap<>();
         claimsMap.put("id", userId);
         claimsMap.put("email", user.getEmail());
-        claimsMap.put("name", user.getName());
+        claimsMap.put("username", user.getUsername());
 
         return Jwts.builder()
                 .setSubject(userId)
