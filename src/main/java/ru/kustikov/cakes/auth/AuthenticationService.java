@@ -43,7 +43,7 @@ public class AuthenticationService {
         user.setUsername(request.username());
         user.setEmail(request.email());
         user.setPassword(passwordEncoder.encode(request.password()));
-        user.setRole(request.role() ? Role.ROLE_CONFECTIONER : Role.ROLE_CUSTOMER);
+        user.setRole(Role.ROLE_CUSTOMER);
 
         try {
             LOG.info("Saving user {}", user.getEmail());
