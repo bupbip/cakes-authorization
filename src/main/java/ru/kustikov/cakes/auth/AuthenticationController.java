@@ -27,7 +27,6 @@ public class AuthenticationController {
 
     private final AuthenticationService authenticationService;
     private final ResponseErrorValidation responseErrorValidation;
-    private final JwtService jwtService;
 
     /**
      * Регистрация пользователя
