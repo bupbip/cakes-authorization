@@ -5,7 +5,7 @@ import ru.kustikov.cakes.user.User;
 /**
  * Класс для ответа аутентификации
  */
-public record AuthenticationResponse (
+public record AuthenticationResponse(
         User user,
         String token,
         String message
