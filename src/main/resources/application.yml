@@ -34,19 +34,3 @@ cakes:
     swagger:
       default-server-url: http://localhost:4301/cakes-authtorization/api
       token-server-url: http://localhost:4301/cakes-authorization/api/oauth2/token
-
-
-
-#springdoc:
-#  swagger-ui:
-#    # Отключение получения демо-данных о petstore
-#    disable-swagger-default-url: true
-#    # Путь до web страницы с swagger
-#    path: /swagger/swagger-ui
-#    # Путь до JSON файла с конфигурацией swagger
-#    configUrl: /api/swagger/swagger-ui/api-docs/swagger-config
-#    # Путь до JSON файла с описание API в OpenAPI формате.
-#    url: /api/swagger/swagger-ui/api-docs
-#  api-docs:
-#    # Путь до JSON файла с описание API в OpenAPI формате.
-#    path: /swagger/swagger-ui/api-docs

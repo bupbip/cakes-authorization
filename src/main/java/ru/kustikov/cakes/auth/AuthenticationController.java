@@ -13,7 +13,6 @@ import org.springframework.web.bind.annotation.RestController;
 import ru.kustikov.cakes.auth.requests.AuthenticationRequest;
 import ru.kustikov.cakes.auth.requests.RegistrationRequest;
 import ru.kustikov.cakes.auth.responses.RegistrationResponse;
-import ru.kustikov.cakes.config.JwtService;
 import ru.kustikov.cakes.exception.UserExistException;
 import ru.kustikov.cakes.validation.ResponseErrorValidation;
 
