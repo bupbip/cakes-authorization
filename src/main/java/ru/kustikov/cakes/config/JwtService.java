@@ -53,6 +53,7 @@ public class JwtService {
         claimsMap.put("id", userId);
         claimsMap.put("email", user.getEmail());
         claimsMap.put("username", user.getUsername());
+        claimsMap.put("role", user.getRole());
 
         return Jwts.builder()
                 .setSubject(userId)
